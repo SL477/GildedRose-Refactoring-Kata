@@ -32,7 +32,7 @@ public class GildedRoseTest
         StreamReader sr = new StreamReader("../../../ApprovalTest.ThirtyDays.approved");
         string i = sr.ReadToEnd();
 
-        Assert.Equal(output, i);
+        Assert.Equal(i, output);
     }
     [Fact]
     public void IsAgedBrie()
@@ -52,5 +52,11 @@ public class GildedRoseTest
     {
         Assert.True(GildedRose.IsSulfuras(new Item { Name = "Sulfuras, Hand of Ragnaros", SellIn = 0, Quality = 0 }));
         Assert.False(GildedRose.IsSulfuras(new Item { Name = "Aged Brie", SellIn = 0, Quality = 0 }));
+    }
+    [Fact]
+    public void IsConjured()
+    {
+        Assert.True(GildedRose.IsConjured(new Item { Name = "Conjured Mana Cake", SellIn = 0, Quality = 0 }));
+        Assert.False(GildedRose.IsConjured(new Item { Name = "Aged Brie", SellIn = 0, Quality = 0 }));
     }
 }
