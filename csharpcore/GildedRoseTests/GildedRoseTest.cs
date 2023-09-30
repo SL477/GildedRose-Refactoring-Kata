@@ -34,4 +34,23 @@ public class GildedRoseTest
 
         Assert.Equal(output, i);
     }
+    [Fact]
+    public void IsAgedBrie()
+    {
+        IList<Item> items = new List< Item> { new Item { Name = "Aged Brie", SellIn=0, Quality = 0 }, new Item { Name = "hi", SellIn = 0, Quality = 0 } };
+        Assert.True(GildedRose.IsAgedBrie(items[0]));
+        Assert.False(GildedRose.IsAgedBrie(items[1]));
+    }
+    [Fact]
+    public void IsBackstagePass()
+    {
+        Assert.True(GildedRose.IsBackstagePass(new Item { Name = "Backstage passes to a TAFKAL80ETC concert", SellIn=0, Quality=0 }));
+        Assert.False(GildedRose.IsBackstagePass(new Item { Name = "Aged Brie", SellIn = 0, Quality = 0 }));
+    }
+    [Fact]
+    public void IsSulfuras()
+    {
+        Assert.True(GildedRose.IsSulfuras(new Item { Name = "Sulfuras, Hand of Ragnaros", SellIn = 0, Quality = 0 }));
+        Assert.False(GildedRose.IsSulfuras(new Item { Name = "Aged Brie", SellIn = 0, Quality = 0 }));
+    }
 }
