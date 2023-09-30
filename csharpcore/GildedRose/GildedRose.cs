@@ -6,6 +6,10 @@ public class GildedRose
 {
     private readonly IList<Item> _items;
 
+    const string AgedBrie = "Aged Brie";
+    const string BackStagePasses = "Backstage passes to a TAFKAL80ETC concert";
+    const string Sulfuras = "Sulfuras, Hand of Ragnaros";
+
     public GildedRose(IList<Item> items)
     {
         _items = items;
@@ -13,74 +17,85 @@ public class GildedRose
 
     public void UpdateQuality()
     {
-        for (var i = 0; i < _items.Count; i++)
+        // loop through the items
+        foreach(Item item in _items)
+        //for (var i = 0; i < _items.Count; i++)
         {
-            if (_items[i].Name != "Aged Brie" && _items[i].Name != "Backstage passes to a TAFKAL80ETC concert")
+            // make sure the item isn't aged brie or backstage passes
+            if (item.Name != AgedBrie && item.Name != BackStagePasses)
             {
-                if (_items[i].Quality > 0)
+                // make sure the quality > 0
+                if (item.Quality > 0)
                 {
-                    if (_items[i].Name != "Sulfuras, Hand of Ragnaros")
+                    // make sure the item isn't Sulfuras
+                    if (item.Name != Sulfuras)
                     {
-                        _items[i].Quality = _items[i].Quality - 1;
+                        item.Quality -= 1;
                     }
                 }
             }
             else
             {
-                if (_items[i].Quality < 50)
+                // quality can't exceed 50
+                if (item.Quality < 50)
                 {
-                    _items[i].Quality = _items[i].Quality + 1;
-
-                    if (_items[i].Name == "Backstage passes to a TAFKAL80ETC concert")
+                    // increase the quality
+                    item.Quality++;
+                    // back stage passes Quality increases by 2 when there are 10 days or less and by 3 when there are 5 days or less but
+                    // Quality drops to 0 after the concert
+                    if (item.Name == BackStagePasses)
                     {
-                        if (_items[i].SellIn < 11)
+                        if (item.SellIn < 11)
                         {
-                            if (_items[i].Quality < 50)
+                            if (item.Quality < 50)
                             {
-                                _items[i].Quality = _items[i].Quality + 1;
+                                item.Quality++;
                             }
                         }
 
-                        if (_items[i].SellIn < 6)
+                        if (item.SellIn < 6)
                         {
-                            if (_items[i].Quality < 50)
+                            if (item.Quality < 50)
                             {
-                                _items[i].Quality = _items[i].Quality + 1;
+                                item.Quality++;
                             }
                         }
                     }
                 }
             }
-
-            if (_items[i].Name != "Sulfuras, Hand of Ragnaros")
+            // "Sulfuras", being a legendary item, never has to be sold or decreases in Quality
+            if (item.Name != Sulfuras)
             {
-                _items[i].SellIn = _items[i].SellIn - 1;
+                item.SellIn -= 1;
             }
-
-            if (_items[i].SellIn < 0)
+            // if sell in is less than 0
+            if (item.SellIn < 0)
             {
-                if (_items[i].Name != "Aged Brie")
+                if (item.Name != AgedBrie)
                 {
-                    if (_items[i].Name != "Backstage passes to a TAFKAL80ETC concert")
+                    if (item.Name != BackStagePasses)
                     {
-                        if (_items[i].Quality > 0)
+                        if (item.Quality > 0)
                         {
-                            if (_items[i].Name != "Sulfuras, Hand of Ragnaros")
+                            if (item.Name != Sulfuras)
                             {
-                                _items[i].Quality = _items[i].Quality - 1;
+                                // Once the sell by date has passed, Quality degrades twice as fast
+                                item.Quality -= 1;
                             }
                         }
                     }
                     else
                     {
-                        _items[i].Quality = _items[i].Quality - _items[i].Quality;
+                        // after the concert backstage passes quality is 0
+                        item.Quality = 0;
                     }
                 }
                 else
                 {
-                    if (_items[i].Quality < 50)
+                    if (item.Quality < 50)
                     {
-                        _items[i].Quality = _items[i].Quality + 1;
+                        // bries quality increaces twice as fast when its sellin is negative
+                        item.Quality++;
                     }
                 }
             }
